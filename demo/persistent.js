@@ -42,7 +42,7 @@ RDP.initMessageEvent({
     }
 });
 
-RDP.domain = 'https://connect3.api.reddotpay' + (el('isProduction').checked ? '.com': '.dev');
+RDP.domain = 'https://connect3.api.reddotpay' + (el('isProduction').checked ? '.com': el('isStaging').checked ? '.sg' : '.dev');
 
 RDP.auth(el('clientKey').value, el('clientSercret').value)
     .then(res => {

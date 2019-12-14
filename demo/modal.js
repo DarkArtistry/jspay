@@ -29,7 +29,7 @@ RDP.initMessageEvent({
             }).join(''));
          
             return JSON.parse(base64);
-         };
+        };
 
         const result = parseJWT(status);
         console.log(result);
@@ -51,9 +51,9 @@ el('pay').addEventListener('click', function (e) {
     el('pay').classList.remove('btn-success');
     el('pay').classList.add('btn-light');
     el('pay').disabled = true;
-
-    // RDP.domain = 'https://connect2.api.reddotpay' + (el('isProduction').checked ? '.com': '.sg');
-    RDP.domain =('https://connect3.api.reddotpay.dev' ||'https://connect2.api.reddotpay' + (el('isProduction').checked ? '.com': '.dev'));
+    console.log('isProduction.checked : ', el('isProduction').checked);
+    console.log('isStaging.checked : ', el('isStaging').checked);
+    RDP.domain = 'https://connect3.api.reddotpay' + (el('isProduction').checked ? '.com' : el('isStaging').checked ? '.sg' : '.dev');
 
     if (el('amount').value != '') {
         el('totalAmount').innerText = el('amount').value;
@@ -63,27 +63,22 @@ el('pay').addEventListener('click', function (e) {
         el('totalCcy').innerText = el('currency').value;
     }
 
-    // RDP.auth(el('clientKey').value, el('clientSercret').value)
-    // .then(res => {
-    //     console.log(res);
-        RDP.modal.pay(
-            // res.accessToken,
-            el('paymentRef').innerText,
-            el('merchant').value,
-            el('totalAmount').innerText,
-            el('totalCcy').innerText,
-            el('clientKey').value,
-            el('clientSercret').value
-        )
-        .catch(e => {
-            console.log(e);
-        })
-        .finally(() => {
-            const oid = "OID" + (new Date()).getTime();
-            console.log("setting oid: " + oid);
-            el('paymentRef').innerText = oid;
-        })
-    // })
+    RDP.modal.pay(
+        el('paymentRef').innerText,
+        el('merchant').value,
+        el('totalAmount').innerText,
+        el('totalCcy').innerText,
+        el('clientKey').value,
+        el('clientSercret').value
+    )
+    .catch(e => {
+        console.log(e);
+    })
+    .finally(() => {
+        const oid = "OID" + (new Date()).getTime();
+        console.log("setting oid: " + oid);
+        el('paymentRef').innerText = oid;
+    })
     .catch(e => {
         console.log(e);
     })
@@ -94,5 +89,5 @@ el('pay').addEventListener('click', function (e) {
         el('pay').disabled = false;
     });
 
-    return false;    
+    return false;
 });

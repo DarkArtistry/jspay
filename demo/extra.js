@@ -8,10 +8,12 @@ el('domainName').innerText = getDomain();
 $('#configForm').on('submit', e => {
     e.stopPropagation();
     e.preventDefault();
-
+    console.log('isStaging.checked2? ', el('isStaging').checked);
+    console.log('isProduction.checked2? ', el('isProduction').checked);
     window.location.href = '?client=' + el('clientKey').value + ':' + el('clientSercret').value +
         '&merchant=' + el('merchant').value + 
         '&production=' + (el('isProduction').checked? 'Y': 'N') +
+        '&staging=' + (el('isStaging').checked? 'Y': 'N') +
         '&ccy=' + el('currency').value +
         '&amt=' + el('amount').value;
 
@@ -24,6 +26,7 @@ if (qs) {
     var qsc = qs.get('client');
     var qsm = qs.get('merchant');
     var qsp = qs.get('production');
+    var qss = qs.get('staging');
     var qsccy = qs.get('ccy');
     var qsamt = qs.get('amt');
 
@@ -39,6 +42,11 @@ if (qs) {
 
     if (qsp) {
         el('isProduction').checked = qsp == 'Y';
+    }
+
+    if (qss) {
+        el('isStaging').checked = qss == 'Y';
+        console.log('qss : ', el('isStaging').checked);
     }
 
     if (qsccy) {

@@ -230,10 +230,6 @@ const RDP = (() => {
                 return lib
                     .pay(id, merchant, amount, currency, clientKey, clientSecret)
                     .then(auth => {
-                        let requestPathArr = auth.pageURI.split('https://connect3.reddotpay.dev');
-                        let requestPath = requestPathArr[1];
-                        let requestUrl = 'https://connect3.reddotpay.dev' + requestPath;
-                        console.log('auth : ', auth);
                         modal.frame.setAttribute('src', auth.pageURI);
                         return auth;
                     })
